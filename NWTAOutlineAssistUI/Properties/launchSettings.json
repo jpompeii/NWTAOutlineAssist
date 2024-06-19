@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "NWTAOutlineAssistUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "NWTAOutlineAssistUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
