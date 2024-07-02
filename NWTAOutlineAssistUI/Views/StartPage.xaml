@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="NWTAOutlineAssist.Views.StartPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:NWTAOutlineAssist.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Margin="0,0,50,0">
+
+    <Grid Background="{ThemeResource NavigationViewExpandedPaneBackground}">
+        <Image Source="/Assets/MKPUSA_logo_hor-1.png" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20"/>
+        <StackPanel HorizontalAlignment="Center">
+            <TextBlock Width="500" Margin="0,50,0,50" Text="Welcome to the Central Great Lakes outline assistant.  This tool was built to take much of the grunt work out of the NWTA outline creation and update processes.  Click one of the buttons below to get started." TextWrapping="Wrap"/>
+            <Button Width="250" HorizontalAlignment="Center" Margin="0 0 0 25" Click="NewOutline_Click">Start a New Outline</Button>
+            <Button Width="250" HorizontalAlignment="Center" Margin="0 0 0 25">Open an Existing Outline</Button>
+            <Button Width="250" HorizontalAlignment="Center">View the Documentation</Button>
+        </StackPanel>
+
+    </Grid>
+</Page>
