@@ -14,7 +14,7 @@
         <StackPanel HorizontalAlignment="Center">
             <TextBlock Width="500" Margin="0,50,0,50" Text="Welcome to the Central Great Lakes outline assistant.  This tool was built to take much of the grunt work out of the NWTA outline creation and update processes.  Click one of the buttons below to get started." TextWrapping="Wrap"/>
             <Button Width="250" HorizontalAlignment="Center" Margin="0 0 0 25" Click="NewOutline_Click">Start a New Outline</Button>
-            <Button Width="250" HorizontalAlignment="Center" Margin="0 0 0 25">Open an Existing Outline</Button>
+            <Button Width="250" HorizontalAlignment="Center" Margin="0 0 0 25" Click="OpenOutline_Click">Open an Existing Outline</Button>
             <Button Width="250" HorizontalAlignment="Center">View the Documentation</Button>
         </StackPanel>
 

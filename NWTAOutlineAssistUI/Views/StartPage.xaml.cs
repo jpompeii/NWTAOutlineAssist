@@ -32,5 +32,10 @@ namespace NWTAOutlineAssist.Views
         {
             App.AppInstance.MainWindow.SetCurrentApplicationMode(ApplicationMode.CreatingOutline);
         }
+
+        private void OpenOutline_Click(object sender, RoutedEventArgs e)
+        {
+            App.AppInstance.MainWindow.OpenOutline();
+        }
     }
 }

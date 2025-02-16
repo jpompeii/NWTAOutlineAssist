@@ -42,17 +42,13 @@ namespace NWTAOutlineAssist
             MainWindow = new MainWindow();
             AppInstance = this;
 
-            // WriteCurrentOutlineToReg("C:\\temp");
-
-
-
             var currOutline = ReadCurrentOutlineFromReg();
             ApplicationMode mode = ApplicationMode.NoCurrentOutline;
             if (currOutline is not null && File.Exists(currOutline + @"\Outline.yaml"))
             {
                 try
                 {
-                    OpenOutline(currOutline);
+                    OpenOutline(currOutline, true);
                     mode = ApplicationMode.EditingOutline;
                 }
                 catch { }
@@ -81,7 +77,7 @@ namespace NWTAOutlineAssist
             MainWindow.SetCurrentApplicationMode(ApplicationMode.EditingOutline);
         }
 
-        public void OpenOutline(string path)
+        public void OpenOutline(string path, bool isCurrent)
         {
             var configFile = path + @"\Outline.yaml";
             var deserializer = new YamlDotNet.Serialization.DeserializerBuilder().Build();
@@ -95,9 +91,13 @@ namespace NWTAOutlineAssist
                 cfg.OutlineOutput= outlineOut;
 
             Configuration = cfg;
+            if (!isCurrent)
+            { 
+                WriteCurrentOutlineToReg(cfg.OutlineFolder); 
+            }
         }
 
-        void TestInputFile(string path, string file)
+        public void TestInputFile(string path, string file)
         {
             if (!File.Exists(path + "\\" + file))
             {

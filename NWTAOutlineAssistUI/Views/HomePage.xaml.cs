@@ -25,6 +25,7 @@ namespace NWTAOutlineAssist.Views
     public sealed partial class HomePage : Page
     {
         public OAConfiguration Configuration { get; set; }
+        public string OutlineName { get { return "Outline: " + Configuration.OutlineName; } }
         private string errorText;
         public HomePage()
         {
@@ -52,6 +53,11 @@ namespace NWTAOutlineAssist.Views
             {
                 Process.Start(new ProcessStartInfo { FileName = Configuration.FullPath(Configuration.OutlineOutput), UseShellExecute = true });
             }
+        }
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Configuration = new OAConfiguration();
+            App.AppInstance.MainWindow.SetCurrentApplicationMode(ApplicationMode.NoCurrentOutline);
         }
     }
 }

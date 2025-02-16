@@ -11,24 +11,25 @@
 
     <Grid Background="{ThemeResource NavigationViewExpandedPaneBackground}">
         
-            <StackPanel HorizontalAlignment="Left">
-                <TextBlock Width="400" Text="Outline: OutlineName" Margin="-60 30 50 0" FontSize="16pt"/>
-                <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-                    <TextBox Header="Role Assignments" Text="{x:Bind Configuration.RoleAssignments, Mode=OneWay}" IsReadOnly="True" Width="400" VerticalAlignment="Bottom"/>
-                    <Button Width="100" VerticalAlignment="Bottom" Click="OpenRoleAssignments_Click" Margin="10 0 0 0">Open</Button>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-                    <TextBox Header="Outline Template" Text="{x:Bind Configuration.OutlineTemplate, Mode=OneWay}" IsReadOnly="True" Width="400" VerticalAlignment="Bottom"/>
-                    <Button Width="100" VerticalAlignment="Bottom" Click="OpenOutlineTemplate_Click" Margin="10 0 0 0">Open</Button>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-                    <TextBox Header="Staff Roster" Text="{x:Bind Configuration.StaffRoster, Mode=OneWay}" IsReadOnly="True" Width="400" VerticalAlignment="Bottom"/>
-                    <Button Width="100" VerticalAlignment="Bottom" Click="OpenStaffRoster_Click" Margin="10 0 0 0">Open</Button>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
-                    <TextBox Header="Generated Outline" Text="{x:Bind Configuration.OutlineOutput, Mode=OneWay}" IsReadOnly="True" Width="400" VerticalAlignment="Bottom"/>
-                    <Button Width="100" VerticalAlignment="Bottom" Click="OpenOutline_Click" Margin="10 0 0 0">Open</Button>
-                </StackPanel>
+        <StackPanel HorizontalAlignment="Left">
+            <TextBlock Width="400" Text="{x:Bind OutlineName, Mode=OneWay}" Margin="-60 30 50 0" FontSize="16pt"/>
+            <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                <TextBox Header="Role Assignments" Text="{x:Bind Configuration.RoleAssignments, Mode=OneWay}" IsReadOnly="True" Width="400" VerticalAlignment="Bottom"/>
+                <Button Width="100" VerticalAlignment="Bottom" Click="OpenRoleAssignments_Click" Margin="10 0 0 0">Open</Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                <TextBox Header="Outline Template" Text="{x:Bind Configuration.OutlineTemplate, Mode=OneWay}" IsReadOnly="True" Width="400" VerticalAlignment="Bottom"/>
+                <Button Width="100" VerticalAlignment="Bottom" Click="OpenOutlineTemplate_Click" Margin="10 0 0 0">Open</Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                <TextBox Header="Staff Roster" Text="{x:Bind Configuration.StaffRoster, Mode=OneWay}" IsReadOnly="True" Width="400" VerticalAlignment="Bottom"/>
+                <Button Width="100" VerticalAlignment="Bottom" Click="OpenStaffRoster_Click" Margin="10 0 0 0">Open</Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                <TextBox Header="Generated Outline" Text="{x:Bind Configuration.OutlineOutput, Mode=OneWay}" IsReadOnly="True" Width="400" VerticalAlignment="Bottom"/>
+                <Button Width="100" VerticalAlignment="Bottom" Click="OpenOutline_Click" Margin="10 0 0 0">Open</Button>
+            </StackPanel>
+            <Button Width="150" Margin="0 50 0 0" Background="LightGray" Click="Close_Click">Close Outline</Button>
         </StackPanel>
         
         <TextBlock Text="{x:Bind errorText, Mode=OneWay}" Margin="0 0 0 10" VerticalAlignment="Bottom" Foreground="Red" />

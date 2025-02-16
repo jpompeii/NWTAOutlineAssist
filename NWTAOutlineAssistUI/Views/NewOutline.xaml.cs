@@ -64,7 +64,7 @@ namespace NWTAOutlineAssist.Views
                 DirectoryInfo selectedFolder = new DirectoryInfo(folder.Path);
                 foreach (var file in selectedFolder.EnumerateFiles())
                 {
-                    if (file.Extension == ".xlsx")
+                    if (file.Extension == ".xlsx" || file.Extension == ".csv")
                     {
                         xlsxFiles.Add(file.Name);
                     }

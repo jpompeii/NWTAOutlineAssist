@@ -19,7 +19,7 @@ namespace NWTAOutlineAssistUI
         public string State;
         public string CPR;
 
-        public List<int> ReqRoles = new List<int>();
+        public List<string> ReqRoles = new List<string>();
     }
 
     public enum ProcessRole

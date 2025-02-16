@@ -12,6 +12,10 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage.Pickers;
+using Windows.Storage;
+using Microsoft.Extensions.Configuration;
+using Windows.Storage.AccessCache;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -118,8 +122,29 @@ namespace NWTAOutlineAssist
             {
                 ContentFrame.Navigate(newPage, null, null);
             }
-         }
+        }
 
+        public async void OpenOutline()
+        {
+            FolderPicker openPicker = new();
+            var window = App.AppInstance.MainWindow;
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+            WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
+
+            // Set options for your folder picker
+            openPicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+            openPicker.FileTypeFilter.Add(".yaml");
+            openPicker.FileTypeFilter.Add(".xlxs");
+
+            StorageFolder folder = await openPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                var app = App.AppInstance;
+                app.TestInputFile(folder.Path, "Outline.yaml");
+                app.OpenOutline(folder.Path, false);
+                SetCurrentApplicationMode(ApplicationMode.EditingOutline);
+            }
+        }
     }
 
 
