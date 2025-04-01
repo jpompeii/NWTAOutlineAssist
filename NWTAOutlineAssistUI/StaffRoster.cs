@@ -35,9 +35,9 @@ namespace NWTAOutlineAssistUI
                         staffMan.Elder = OutlinePrint.CellString(worksheet.Cells[row, 7]);
                         staffMan.Email = OutlinePrint.CellString(worksheet.Cells[row, 8]);
                         staffMan.Phone = OutlinePrint.CellString(worksheet.Cells[row, 9]);
-                        staffMan.City = OutlinePrint.CellString(worksheet.Cells[row, 10]);
-                        staffMan.State = OutlinePrint.CellString(worksheet.Cells[row, 11]);
-                        staffMan.CPR = OutlinePrint.CellString(worksheet.Cells[row, 13]);
+                        staffMan.City = OutlinePrint.CellString(worksheet.Cells[row, 11]);
+                        staffMan.State = OutlinePrint.CellString(worksheet.Cells[row, 12]);
+                        staffMan.CPR = OutlinePrint.CellString(worksheet.Cells[row, 14]);
                         StaffList.Add(staffMan);
                     }
                     else

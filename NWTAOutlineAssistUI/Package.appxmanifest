@@ -10,7 +10,7 @@
   <Identity
     Name="112c6447-c93b-4732-b11a-baad54dbc7d1"
     Publisher="CN=secant.org"
-    Version="1.0.4.0" />
+    Version="1.0.9.0" />
 
   <mp:PhoneIdentity PhoneProductId="112c6447-c93b-4732-b11a-baad54dbc7d1" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

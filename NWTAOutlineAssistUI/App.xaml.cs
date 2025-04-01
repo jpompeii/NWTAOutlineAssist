@@ -83,6 +83,7 @@ namespace NWTAOutlineAssist
             var deserializer = new YamlDotNet.Serialization.DeserializerBuilder().Build();
 
             OAConfiguration cfg = deserializer.Deserialize<OAConfiguration>(File.ReadAllText(configFile));
+            cfg.OutlineFolder = path;
             TestInputFile(path, cfg.RoleAssignments);
             TestInputFile(path, cfg.OutlineTemplate);
             TestInputFile(path, cfg.StaffRoster);
@@ -93,7 +94,7 @@ namespace NWTAOutlineAssist
             Configuration = cfg;
             if (!isCurrent)
             { 
-                WriteCurrentOutlineToReg(cfg.OutlineFolder); 
+                WriteCurrentOutlineToReg(path); 
             }
         }
 

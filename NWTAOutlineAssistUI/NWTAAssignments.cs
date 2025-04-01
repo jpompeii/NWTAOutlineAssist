@@ -72,7 +72,7 @@ namespace NWTAOutlineAssistUI
                         for (int col = 3; col <= lastMan; col++)
                         {
                             cell = worksheet.Cells[row, col];
-                            if (cell.Value != null)
+                            if (cell.Value != null && !String.IsNullOrWhiteSpace(cell.Value.ToString()))
                             {
                                 name = Staff[col].Name;
                                 var role = TranslateRole(cell.Value.ToString());

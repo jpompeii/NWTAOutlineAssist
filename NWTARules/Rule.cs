@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace NWTARules
 {
-    
-
     public class Rule
     {
         public string FunctionID { get; set; }
@@ -18,10 +16,10 @@ namespace NWTARules
         // todo: load this from a file
         static public Dictionary<string, string> RoleLabels = new Dictionary<string, string>()
         {
-            {"colead", "CL:"},
-            {"music", "Music:"},
-            {"clc", "CLC:" },
-            {"leader", "Ldr:"}
+            {"colead", "(CL)"},
+            {"music", "(Mu)"},
+            {"clc", "(CLC)" },
+            {"leader", "(L)"}
         };
 
         public Rule(string rule) 
@@ -84,11 +82,11 @@ namespace NWTARules
                     {
                         if ((TestBooleanRule("comma", true) && outCount == 0) || outCount > 0)
                             outString.Append(", ");
-
-                        if (TestBooleanRule("label", true))
-                            outString.Append(GetRoleLabel(Role));
                         
                         outString.Append(nmr.Name);
+                        if (TestBooleanRule("label", true))
+                            outString.Append(GetRoleLabel(nmr.Role));
+
                         outCount++;
                         nameIndex++;
                     }

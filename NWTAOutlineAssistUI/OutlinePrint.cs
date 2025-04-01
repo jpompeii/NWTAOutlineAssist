@@ -39,6 +39,27 @@ namespace NWTAOutlineAssistUI
             }
             File.Copy(configuration.FullPath(configuration.OutlineTemplate), TemplateFile);
 
+            int[][] templateConfig;
+            
+            if (configuration.OutlineTemplate.StartsWith("GCC"))
+            {
+                templateConfig = new int[][]
+                {
+                    new int[] { 2, 60, 8 },
+                    new int[] { 3, 60, 8 },
+                    new int[] { 4, 60, 8 },
+                    new int[] { 5, 60, 8 }
+                };
+            }
+            else
+            {
+                templateConfig = new int[][]
+                {
+                    new int[] { 2, 60, 5 },
+                    new int[] { 3, 210, 3 }
+                };
+            }
+
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             roster = new StaffRoster(configuration.FullPath(configuration.StaffRoster));
             roster.ReadStaff();
@@ -46,17 +67,21 @@ namespace NWTAOutlineAssistUI
             assignments = new NWTAAssignments(configuration.FullPath(configuration.RoleAssignments), console);
             assignments.ProcessAssignments();
 
-            ProcessTemplate();
+            ProcessTemplate(templateConfig);
         }
 
-        public void ProcessTemplate()
+        public void ProcessTemplate(int[][] templateConfig)
         {
             using (var package = new ExcelPackage(new FileInfo(TemplateFile)))
             {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets[2];
-                ProcessCoordinators(worksheet);
-                worksheet = package.Workbook.Worksheets[3];
-                ProcessOutlineSheet(worksheet);
+                ExcelWorksheet worksheet;
+                
+                for (int i = 0; i < templateConfig.Length; ++i)
+                {
+                    worksheet = package.Workbook.Worksheets[templateConfig[i][0]];
+                    ProcessOutlineSheet(worksheet, templateConfig[i][1], templateConfig[i][2]);
+                }
+
                 worksheet = package.Workbook.Worksheets[0];
                 ProcessRoster(worksheet);
                 worksheet = package.Workbook.Worksheets[1];
@@ -168,16 +193,15 @@ namespace NWTAOutlineAssistUI
             }
         }
 
-        void ProcessOutlineSheet(ExcelWorksheet worksheet)
+        void ProcessOutlineSheet(ExcelWorksheet worksheet, int procRows, int procCols)
         {
-            for (int row = 1; row < 250; ++row)
+            for (int row = 1; row <= procRows; ++row)
             {
-                for (int col = 1; col <= 3; ++col)
+                for (int col = 1; col <= procCols; ++col)
                 {
                     if (worksheet.Cells[row, col].Value != null)
                     {
                         var cell = worksheet.Cells[row, col];
-                        string value = cell.Value.ToString();
                         var textCltn = cell.RichText;
                         foreach (var rtext in textCltn)
                         {
