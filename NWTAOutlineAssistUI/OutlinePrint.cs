@@ -239,5 +239,10 @@ namespace NWTAOutlineAssistUI
             return cells.Value != null ? cells.Value.ToString() : String.Empty;
         }
 
+        public static string CellString(string value)
+        {
+            return value != null ? value : String.Empty;
+        }
+
     }
 }

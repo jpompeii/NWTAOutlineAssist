@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using Microsoft.VisualBasic.FileIO;
 using OfficeOpenXml;
 
 
@@ -16,6 +18,14 @@ namespace NWTAOutlineAssistUI
         }
 
         public List<StaffMan> ReadStaff()
+        {
+            if (rosterFile.EndsWith(".csv", StringComparison.InvariantCultureIgnoreCase))
+                return ReadStaffCSV();
+            else
+                return ReadStaffXls();
+        }
+
+        public List<StaffMan> ReadStaffXls()
         {
 
             using (var package = new ExcelPackage(new FileInfo(rosterFile)))
@@ -46,5 +56,52 @@ namespace NWTAOutlineAssistUI
             }
             return StaffList;
         }
+
+        List<StaffMan> ReadStaffCSV()
+        {
+            try
+            {
+                List<StaffMan> StaffList = new List<StaffMan>();
+                int row = 0;
+                using (TextFieldParser parser = new TextFieldParser(rosterFile))
+                {
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");
+                    while (!parser.EndOfData)
+                    {
+                        string[] values = parser.ReadFields();
+                        if (row++ == 0)
+                            continue;
+
+                        var name = values[0];
+                        var ldrTrk = String.IsNullOrWhiteSpace(values[5]) ? null : values[5];
+                        var elder = String.IsNullOrWhiteSpace(values[6]) ? null : values[6];
+
+                        var staffMan = new StaffMan();
+                        staffMan.Name = values[0];
+                        staffMan.Area = OutlinePrint.CellString(values[1]);
+                        staffMan.Community = OutlinePrint.CellString(values[2]);
+                        staffMan.WarriorName = OutlinePrint.CellString(values[3]);
+                        staffMan.Staffings = int.Parse(OutlinePrint.CellString(values[4]));
+                        staffMan.Role = OutlinePrint.CellString(values[5]);
+                        staffMan.Elder = OutlinePrint.CellString(values[6]);
+                        staffMan.Email = OutlinePrint.CellString(values[7]);
+                        staffMan.Phone = OutlinePrint.CellString(values[8]);
+                        staffMan.City = OutlinePrint.CellString(values[10]);
+                        staffMan.State = OutlinePrint.CellString(values[11]);
+                        staffMan.CPR = OutlinePrint.CellString(values[13]);
+                        StaffList.Add(staffMan);
+                    }
+                }
+                return StaffList;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An error occurred processing the staff roster CSV", ex);
+            }
+        }
+
+
+
     }
 }

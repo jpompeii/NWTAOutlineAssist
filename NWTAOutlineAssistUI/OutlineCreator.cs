@@ -7,6 +7,7 @@ using System.IO;
 using System.Drawing;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualBasic.FileIO;
+using Microsoft.Extensions.Configuration;
 
 namespace NWTAOutlineAssistUI
 {
@@ -45,10 +46,8 @@ namespace NWTAOutlineAssistUI
 
             Dictionary<string, string> roleMappings = ReadRoleMappings();
             List<StaffMan> staffMen;
-            if (ssRoster.EndsWith(".csv", StringComparison.InvariantCultureIgnoreCase))
-                staffMen = ReadStaffNamesCSV(ssRoster);
-            else
-                staffMen = ReadStaffNames(ssRoster);
+            var roster = new StaffRoster(ssRoster);
+            staffMen = roster.ReadStaff();
 
             // sort the list by the number of staffings
             staffMen.Sort((PosA, PosB) => PosB.Staffings.CompareTo(PosA.Staffings));
@@ -73,6 +72,7 @@ namespace NWTAOutlineAssistUI
             return mappings;
         }
 
+        /*
         List<StaffMan> ReadStaffNames(string ssRoster)
         {
             try
@@ -141,7 +141,7 @@ namespace NWTAOutlineAssistUI
                 throw new ApplicationException("An error occurred processing the staff roster spreadsheet", ex);
             }
         }
-
+        */
 
         void ReadRoleRequests(string ssRoles, List<StaffMan> staffMen, Dictionary<string, string> roleMappings)
         {
@@ -244,7 +244,8 @@ namespace NWTAOutlineAssistUI
                     worksheet.Cells[2, colIndex].Value = staffMan.Staffings;
                     if (staffMan.Role != null)
                     {
-                        worksheet.Cells[3, colIndex].Value = staffMan.Role;
+                        // worksheet.Cells[3, colIndex].Value = staffMan.Role;
+                        worksheet.Cells[3, colIndex].Value = OutlineData.TranslateRole(staffMan.Role, staffMan.Elder);
                     }
                     foreach (string req in staffMan.ReqRoles)
                     {
