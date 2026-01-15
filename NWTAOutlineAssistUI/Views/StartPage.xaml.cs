@@ -23,9 +23,18 @@ namespace NWTAOutlineAssist.Views
     /// </summary>
     public sealed partial class StartPage : Page
     {
+        int x;
         public StartPage()
         {
             this.InitializeComponent();
+            this.Loaded += (sender, e) =>
+            {
+                if (App.AppInstance != null && App.AppInstance.StartupException != null)
+                {
+                    App.AppInstance.MainWindow.ShowErrorDialog(App.AppInstance.StartupException);
+                    App.AppInstance.StartupException = null;
+                }
+            };
         }
 
         private void NewOutline_Click(object sender, RoutedEventArgs e)
@@ -36,6 +45,12 @@ namespace NWTAOutlineAssist.Views
         private void OpenOutline_Click(object sender, RoutedEventArgs e)
         {
             App.AppInstance.MainWindow.OpenOutline();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            
         }
     }
 }

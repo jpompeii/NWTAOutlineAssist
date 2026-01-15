@@ -42,10 +42,14 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Etc\Config.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="7.2.0" />
+    <PackageReference Include="GoogleSheetsWrapper" Version="2.0.26" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240607001" />
     <PackageReference Include="YamlDotNet" Version="15.3.0" />
@@ -95,6 +99,17 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NWTARules\NWTARules.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Templates\NWTARoleAssignmentTemplate-OLD.xlsx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Templates\NWTARoleAssignmentTemplate-OLD2.xlsx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Templates\NWTARoleAssignmentTemplate-OLD3.xlsx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <!--

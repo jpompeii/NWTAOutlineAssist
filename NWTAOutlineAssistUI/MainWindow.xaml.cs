@@ -33,6 +33,7 @@ namespace NWTAOutlineAssist
     public sealed partial class MainWindow : Window
     {
         public ApplicationMode CurrentMode { get; private set; }
+        public XamlRoot XmlRoot => this.rootWindow.XamlRoot;
         public MainWindow()
         {
             this.InitializeComponent();
@@ -141,11 +142,59 @@ namespace NWTAOutlineAssist
             {
                 var app = App.AppInstance;
                 app.TestInputFile(folder.Path, "Outline.yaml");
-                app.OpenOutline(folder.Path, false);
-                SetCurrentApplicationMode(ApplicationMode.EditingOutline);
+                try
+                {
+                    app.OpenOutline(folder.Path, false);
+                    SetCurrentApplicationMode(ApplicationMode.EditingOutline);
+                }
+                catch (Exception ex)
+                {
+                    ShowErrorDialog("An error occurred trying to open the outline.", ex);
+                    return;
+                }
             }
         }
+
+        public async void ShowErrorDialog(Exception ex)
+        {
+            string baseMsg = ex.Message;
+            if (ex.InnerException != null)
+            {
+                baseMsg += "\nCause: " + ex.InnerException.Message;
+            }
+
+            ContentDialog errorDialog = new ContentDialog
+            {
+                XamlRoot = this.XmlRoot,
+                Title = "Application Error",
+                Content = baseMsg,
+                CloseButtonText = "OK"
+            };
+
+            ContentDialogResult result = await errorDialog.ShowAsync();
+        }
+
+        public async void ShowErrorDialog(string msg, Exception ex = null)
+        {
+            string baseMsg = msg;
+            if (ex != null)
+            {
+                baseMsg += "\nCause: " + ex.Message;
+                if (ex.InnerException != null)
+                {
+                    baseMsg += " Due to: " + ex.InnerException.Message;
+                }
+            }
+
+            ContentDialog errorDialog = new ContentDialog
+            {
+                XamlRoot = this.XmlRoot,
+                Title = "Application Error",
+                Content = baseMsg,
+                CloseButtonText = "OK"
+            };
+
+            ContentDialogResult result = await errorDialog.ShowAsync();
+        }
     }
-
-
 }

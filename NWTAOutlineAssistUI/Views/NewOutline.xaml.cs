@@ -88,7 +88,8 @@ namespace NWTAOutlineAssist.Views
             }
             catch (Exception ex)
             {
-                errorText = ex.Message;
+                // errorText = ex.Message;
+                App.AppInstance.MainWindow.ShowErrorDialog("Could not create outline.", ex);
                 Bindings.Update();
             }
         }

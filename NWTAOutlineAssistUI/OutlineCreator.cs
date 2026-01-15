@@ -72,77 +72,6 @@ namespace NWTAOutlineAssistUI
             return mappings;
         }
 
-        /*
-        List<StaffMan> ReadStaffNames(string ssRoster)
-        {
-            try
-            {
-                List<StaffMan> StaffList = new List<StaffMan>();
-                using (var package = new ExcelPackage(new FileInfo(ssRoster)))
-                {
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-                    for (int row = 2; ; ++row)
-                    {
-                        if (worksheet.Cells[row, 1].Value != null)
-                        {
-                            var name = worksheet.Cells[row, 1].Value.ToString().Trim();
-                            var ldrTrk = worksheet.Cells[row, 6].Value != null ? worksheet.Cells[row, 6].Value.ToString() : null;
-                            var elder = worksheet.Cells[row, 7].Value != null ? worksheet.Cells[row, 7].Value.ToString() : null;
-
-                            var staffMan = new StaffMan();
-                            staffMan.Name = name;
-                            staffMan.Staffings = int.Parse(worksheet.Cells[row, 5].Value.ToString());
-                            staffMan.Role = OutlineData.TranslateRole(ldrTrk, elder);
-                            StaffList.Add(staffMan);
-                        }
-                        else
-                            break;
-                    }
-                }
-                return StaffList;
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("An error occurred processing the staff roster spreadsheet", ex);
-            }
-        }
-
-        List<StaffMan> ReadStaffNamesCSV(string ssRoster)
-        {
-            try
-            {
-                List<StaffMan> StaffList = new List<StaffMan>();
-                int row = 0;
-                using (TextFieldParser parser = new TextFieldParser(ssRoster))
-                {
-                    parser.TextFieldType = FieldType.Delimited;
-                    parser.SetDelimiters(",");
-                    while (!parser.EndOfData)
-                    {
-                        string[] values = parser.ReadFields();
-                        if (row++ == 0)
-                            continue;
-
-                        var name = values[0];
-                        var ldrTrk = String.IsNullOrWhiteSpace(values[5]) ? null : values[5];
-                        var elder = String.IsNullOrWhiteSpace(values[6]) ? null : values[6];
-
-                        var staffMan = new StaffMan();
-                        staffMan.Name = name;
-                        staffMan.Staffings = int.Parse(values[4]);
-                        staffMan.Role = OutlineData.TranslateRole(ldrTrk, elder);
-                        StaffList.Add(staffMan);
-                    }
-                }
-                return StaffList;
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("An error occurred processing the staff roster spreadsheet", ex);
-            }
-        }
-        */
-
         void ReadRoleRequests(string ssRoles, List<StaffMan> staffMen, Dictionary<string, string> roleMappings)
         {
             try
@@ -214,7 +143,6 @@ namespace NWTAOutlineAssistUI
                 throw new ApplicationException("An error occurred processing the role requests spreadsheet", ex);
             }
         }
-
 
         void PopulateRoleAssignments(string ssName, List<StaffMan> staffMen)
         {

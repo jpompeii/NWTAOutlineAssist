@@ -43,7 +43,7 @@ namespace NWTARules
                 }
                 else if (roleParts.Length != 1)
                 {
-                    throw new ApplicationException("Rule text format error: invalid index format");
+                    throw new ApplicationException("Rule text format error: invalid index format: " + rule);
                 }
             }
             else

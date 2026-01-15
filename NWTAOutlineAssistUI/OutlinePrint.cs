@@ -11,7 +11,7 @@ namespace NWTAOutlineAssistUI
     public class OutlinePrint
     {
         public string TemplateFile { get; set; }
-        NWTAAssignments assignments;
+        INWTAAssignments assignments;
         StaffRoster roster;
         OAConfiguration configuration;
         TextWriter console;
@@ -64,7 +64,8 @@ namespace NWTAOutlineAssistUI
             roster = new StaffRoster(configuration.FullPath(configuration.StaffRoster));
             roster.ReadStaff();
 
-            assignments = new NWTAAssignments(configuration.FullPath(configuration.RoleAssignments), console);
+            // assignments = new NWTAAssignments(configuration.FullPath(configuration.RoleAssignments), console);
+            assignments = NWTAAssignments.Create(configuration.OutlineFolder, configuration.RoleAssignments, console);
             assignments.ProcessAssignments();
 
             ProcessTemplate(templateConfig);

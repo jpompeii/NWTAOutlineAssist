@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     Margin="0,0,50,0">
 
-    <Grid Background="{ThemeResource NavigationViewExpandedPaneBackground}">
+    <Grid Background="{ThemeResource NavigationViewExpandedPaneBackground}" x:Name="pageRoot">
         <Image Source="/Assets/MKPUSA_logo_hor-1.png" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20"/>
         <StackPanel HorizontalAlignment="Center">
             <TextBlock Width="500" Margin="0,50,0,50" Text="Welcome to the Central Great Lakes outline assistant.  This tool was built to take much of the grunt work out of the NWTA outline creation and update processes.  Click one of the buttons below to get started." TextWrapping="Wrap"/>

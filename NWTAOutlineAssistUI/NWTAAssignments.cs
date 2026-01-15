@@ -6,7 +6,13 @@ using System.IO;
 
 namespace NWTAOutlineAssistUI
 {
-    public class NWTAAssignments
+    public interface INWTAAssignments
+    {
+       Dictionary<string, Function> Functions { get; }
+       void ProcessAssignments();
+    }
+
+    public class NWTAAssignments : INWTAAssignments
     {
         public Dictionary<int, StaffMan> Staff { get; set; } = new Dictionary<int, StaffMan>();
         public Dictionary<string, Function> Functions { get; set; } = new Dictionary<string, Function>();
@@ -15,6 +21,19 @@ namespace NWTAOutlineAssistUI
         int lastMan = 0;
         string assignmentSheet;
         TextWriter console;
+
+        public static INWTAAssignments Create(string outlineDir, string assnFile, TextWriter console)
+        {
+            if (String.IsNullOrWhiteSpace(assnFile))
+                throw new ArgumentNullException(nameof(assnFile), "Assignment file cannot be null or empty.");
+            if (console == null)
+                throw new ArgumentNullException(nameof(console), "Console cannot be null.");
+
+            if (assnFile.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                return new NWTAAssignmentsFromGoogle(assnFile, console);
+            else
+                return new NWTAAssignments(outlineDir + "\\" + assnFile, console);
+        }
 
         public NWTAAssignments(string assnFile, TextWriter console)
         {
@@ -32,7 +51,7 @@ namespace NWTAOutlineAssistUI
             }
         }
 
-        public void ReadStaff()
+        void ReadStaff()
         {
             int manIdx = 3;
             while (worksheet.Cells[1, manIdx].Value != null)
@@ -49,7 +68,7 @@ namespace NWTAOutlineAssistUI
             lastMan = manIdx - 1;
         }
 
-        public void ReadFunctions()
+        void ReadFunctions()
         {
             int row = 1;
             do
@@ -91,18 +110,18 @@ namespace NWTAOutlineAssistUI
 
         }
 
-        public string TranslateRole(string assn)
+        public static string TranslateRole(string assn)
         {
             // move this to a configuration
-            if (assn == "x" | assn == "y" || assn == "B")
+            if (assn == "x" || assn == "#" || assn == "y" || assn == "B" || assn == "X" || assn == "b")
                 return "team";
-            else if (assn == "L")
+            else if (assn == "L" || assn == "l")
                 return "leader";
-            else if (assn == "C")
+            else if (assn == "C" || assn == "c")
                 return "colead";
-            else if (assn == "M")
+            else if (assn == "M" || assn == "m")
                 return "team";
-            else if (assn == "a")
+            else if (assn == "a" || assn == "A")
                 return "assist";
             else return null;
         }

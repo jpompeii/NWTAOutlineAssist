@@ -1,7 +1,9 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using NWTAOutlineAssist;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 
@@ -26,6 +28,7 @@ namespace NWTAOutlineAssistUI.Views
             {
                 using (TextWriter writer = new StreamWriter(memStream))
                 {
+                    bool success = false;
                     string errMsg = string.Empty;
                     var outlinePrint = new OutlinePrint(App.AppInstance.Configuration, writer);
                     try
@@ -33,6 +36,7 @@ namespace NWTAOutlineAssistUI.Views
                         outlinePrint.GenerateOutline();
                         writer.WriteLine("Outline created successfully!");
                         writer.Flush();
+                        success = true;
                     }
                     catch (Exception ex)
                     {
@@ -44,6 +48,21 @@ namespace NWTAOutlineAssistUI.Views
 
                     messageText = text + "\n" + errMsg;
                     Bindings.Update();
+
+                    if (success && OpenOutline.IsChecked == true)
+                    {
+                        var cfg = App.AppInstance.Configuration;
+                        var path = cfg.FullPath(cfg.OutlineOutput);
+                        try
+                        {
+                            Process.Start(new ProcessStartInfo { FileName = path, UseShellExecute = true });
+                        }
+                        catch (Exception ex)
+                        {
+                            App.AppInstance.MainWindow.ShowErrorDialog("Could not open document: " + path, ex);
+                        }
+                    }
+                        
                 }
             }
         }

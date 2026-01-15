@@ -20,8 +20,9 @@ namespace NWTAOutlineAssist
         public string CurrentOutline { get; private set; }
         public static App AppInstance { get; private set; }
         public MainWindow MainWindow { get; private set; }
-        
-        
+        public Exception StartupException { get; set; } = null;
+
+
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -51,7 +52,9 @@ namespace NWTAOutlineAssist
                     OpenOutline(currOutline, true);
                     mode = ApplicationMode.EditingOutline;
                 }
-                catch { }
+                catch (Exception ex) {
+                    StartupException = ex;
+                }
             }
 
             MainWindow.Activate();
@@ -66,6 +69,8 @@ namespace NWTAOutlineAssist
         public void EstablishNewOutline(OAConfiguration configuration)
         {
             var configFile = configuration.FullPath("Outline.yaml");
+            var safeDir = configuration.OutlineFolder;
+            configuration.OutlineFolder = ".";
             using (var output = File.CreateText(configFile))
             {
                 var serializer = new SerializerBuilder().Build();
@@ -73,6 +78,7 @@ namespace NWTAOutlineAssist
                 output.WriteLine(yaml);
             }
             WriteCurrentOutlineToReg(configuration.OutlineFolder);
+            configuration.OutlineFolder = safeDir;
             Configuration = configuration;
             MainWindow.SetCurrentApplicationMode(ApplicationMode.EditingOutline);
         }
@@ -84,7 +90,10 @@ namespace NWTAOutlineAssist
 
             OAConfiguration cfg = deserializer.Deserialize<OAConfiguration>(File.ReadAllText(configFile));
             cfg.OutlineFolder = path;
-            TestInputFile(path, cfg.RoleAssignments);
+            if (!cfg.RoleAssignments.StartsWith("http"))
+            {
+                TestInputFile(path, cfg.RoleAssignments);
+            }
             TestInputFile(path, cfg.OutlineTemplate);
             TestInputFile(path, cfg.StaffRoster);
             var outlineOut = cfg.OutlineName.Trim() + " Outline.xlsx";
@@ -102,7 +111,7 @@ namespace NWTAOutlineAssist
         {
             if (!File.Exists(path + "\\" + file))
             {
-                throw new ApplicationException($"Cannot open file: {file} in foler: {path}");
+                throw new ApplicationException($"Cannot open file: {file} in foler: {path}.  Was it moved or erased by accident? ");
             }
         }
 

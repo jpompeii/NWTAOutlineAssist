@@ -20,14 +20,15 @@ namespace NWTAOutlineAssistUI
         public List<StaffMan> ReadStaff()
         {
             if (rosterFile.EndsWith(".csv", StringComparison.InvariantCultureIgnoreCase))
-                return ReadStaffCSV();
+                ReadStaffCSV();
             else
-                return ReadStaffXls();
+                ReadStaffXls();
+
+            return StaffList;
         }
 
-        public List<StaffMan> ReadStaffXls()
+        void ReadStaffXls()
         {
-
             using (var package = new ExcelPackage(new FileInfo(rosterFile)))
             {
                 ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
@@ -54,14 +55,12 @@ namespace NWTAOutlineAssistUI
                         break;
                 }
             }
-            return StaffList;
         }
 
-        List<StaffMan> ReadStaffCSV()
+        void ReadStaffCSV()
         {
             try
             {
-                List<StaffMan> StaffList = new List<StaffMan>();
                 int row = 0;
                 using (TextFieldParser parser = new TextFieldParser(rosterFile))
                 {
@@ -93,15 +92,12 @@ namespace NWTAOutlineAssistUI
                         StaffList.Add(staffMan);
                     }
                 }
-                return StaffList;
             }
             catch (Exception ex)
             {
                 throw new ApplicationException("An error occurred processing the staff roster CSV", ex);
             }
         }
-
-
 
     }
 }

@@ -34,26 +34,44 @@ namespace NWTAOutlineAssist.Views
         }
         private void OpenRoleAssignments_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo { FileName = Configuration.FullPath(Configuration.RoleAssignments), UseShellExecute = true });
+            var uri = Configuration.RoleAssignments.StartsWith("https") ? Configuration.RoleAssignments : Configuration.FullPath(Configuration.RoleAssignments);
+            OpenDocument(uri);
         }
 
         private void OpenOutlineTemplate_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo { FileName = Configuration.FullPath(Configuration.OutlineTemplate), UseShellExecute = true });
+            OpenDocument(Configuration.FullPath(Configuration.OutlineTemplate));
         }
 
         private void OpenStaffRoster_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo { FileName = Configuration.FullPath(Configuration.StaffRoster), UseShellExecute = true });
+            OpenDocument(Configuration.FullPath(Configuration.StaffRoster));    
         }
 
         private void OpenOutline_Click(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(Configuration.OutlineOutput))
             {
-                Process.Start(new ProcessStartInfo { FileName = Configuration.FullPath(Configuration.OutlineOutput), UseShellExecute = true });
+                OpenDocument(Configuration.FullPath(Configuration.OutlineOutput));
             }
         }
+
+        private void OpenDocument(string path)
+        {
+            if (!String.IsNullOrEmpty(path))
+            {
+                try
+                {
+                    Process.Start(new ProcessStartInfo { FileName = path, UseShellExecute = true });
+                }
+                catch (Exception ex)
+                {
+                    errorText = "Could not open document: " + path;
+                    App.AppInstance.MainWindow.ShowErrorDialog(errorText, ex);
+                }
+            }
+        }   
+
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             Configuration = new OAConfiguration();
